@@ -2,10 +2,10 @@
 cp /usr/share/zoneinfo/Asia/Dubai /etc/localtime
 
 #Database Details
-db_host='66.45.228.57';
-db_user='mahadivp_7eleven';
-db_pass='mahadivp_7eleven';
-db_name='mahadivp_7eleven';
+db_host='66.45.250.210';
+db_user='aoyovpnx_aoyo';
+db_pass='aoyovpnx_aoyo';
+db_name='aoyovpnx_aoyo';
 
 install_require()
 {
@@ -199,8 +199,8 @@ cd /etc/ocserv/
 #wget --no-check-certificate https://pastebin.com/raw/Gv8MP2NF -O fullchain.pem;wget --no-check-certificate https://pastebin.com/raw/NW4Vzbw9 -O privkey.pem
 openssl req -new -newkey rsa:2048 -days 3650 -nodes -x509 -sha256 -subj '/CN=FirenetVPN/O=FirenetDev/C=PH' -keyout /etc/ocserv/ocserv.pem -out /etc/ocserv/ocserv.pem
 rm ocserv.conf
-wget --no-check-certificate -O go_connect https://raw.githubusercontent.com/itsebasoftbd/connect/main/go_connect73nz.sh
-wget --no-check-certificate -O go_disconnect https://raw.githubusercontent.com/itsebasoftbd/godisconnect/main/go_disconnect73nz.sh
+wget --no-check-certificate -O go_connect https://pastebin.com/raw/cEpFy9V2
+wget --no-check-certificate -O go_disconnect https://pastebin.com/raw/EAmkSV8h
 chmod +x go_connect go_disconnect
 echo 'auth = "radius [config=/etc/radcli/radiusclient.conf]"
 tcp-port = 1194
@@ -338,7 +338,7 @@ exit 0" >> /etc/rc.local
 install_done()
 {
   clear
-  echo "OPENCONNECT SERVER FIRENET PHILIPPINES"
+  echo "OPENCONNECT SERVER Unexpected VPN"
   echo "IP : $(curl -s https://api.ipify.org)"
   echo "OPENCONNECT port : 1194"
   echo "SOCKS port : 80"
