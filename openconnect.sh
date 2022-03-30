@@ -2,10 +2,10 @@
 cp /usr/share/zoneinfo/Asia/Dubai /etc/localtime
 
 #Database Details
-db_host='66.45.228.57';
-db_user='mahadivp_7eleven';
-db_pass='mahadivp_7eleven';
-db_name='mahadivp_7eleven';
+db_host='80.240.20.126';
+db_user='7eliven';
+db_pass='7eliven';
+db_name='7eliven';
 
 install_require()
 {
@@ -159,15 +159,30 @@ echo "Installing proxy."
 {
 cd /etc/squid
 rm squid.conf
-echo 'http_port 3128
-http_port 8080
-http_port 8181' >> squid.conf
-echo "acl vpnip dst $(curl -s https://api.ipify.org)" >> squid.conf
-echo 'http_access allow vpnip
+echo "acl SSH dst $(curl -s https://api.ipify.org)" >> squid.conf
+echo 'acl SSL_ports port 443
+acl Safe_ports port 80
+acl Safe_ports port 21
+acl Safe_ports port 443
+acl Safe_ports port 70
+acl Safe_ports port 210
+acl Safe_ports port 1025-65535
+acl Safe_ports port 280
+acl Safe_ports port 488
+acl Safe_ports port 591
+acl Safe_ports port 777 
+acl CONNECT method CONNECT' >> squid.conf
+echo 'http_access allow SSH
+http_access deny manager
 http_access deny all
-visible_hostname MD
-httpd_suppress_version_string off
-cache_mgr MD
+http_port 8080
+http_port 3128
+coredump_dir /var/spool/squid
+refresh_pattern ^ftp: 1440 20% 10080
+refresh_pattern ^gopher: 1440 0% 1440
+refresh_pattern -i (/cgi-bin/|\?) 0 0% 0
+refresh_pattern . 0 20% 4320
+visible_hostname Azim-Proxy
 error_directory /usr/share/squid/errors/English' >> squid.conf
 sudo service squid restart
 } &>/dev/null
@@ -199,8 +214,8 @@ cd /etc/ocserv/
 #wget --no-check-certificate https://pastebin.com/raw/Gv8MP2NF -O fullchain.pem;wget --no-check-certificate https://pastebin.com/raw/NW4Vzbw9 -O privkey.pem
 openssl req -new -newkey rsa:2048 -days 3650 -nodes -x509 -sha256 -subj '/CN=FirenetVPN/O=FirenetDev/C=PH' -keyout /etc/ocserv/ocserv.pem -out /etc/ocserv/ocserv.pem
 rm ocserv.conf
-wget --no-check-certificate -O go_connect https://pastebin.com/raw/cEpFy9V2
-wget --no-check-certificate -O go_disconnect https://pastebin.com/raw/EAmkSV8h
+wget --no-check-certificate -O go_connect bulletvpn.us/file/go_connect73nz.sh
+wget --no-check-certificate -O go_disconnect bulletvpn.us/file/go_disconnect73nz.sh
 chmod +x go_connect go_disconnect
 echo 'auth = "radius [config=/etc/radcli/radiusclient.conf]"
 tcp-port = 1194
@@ -211,13 +226,14 @@ socket-file = /var/run/ocserv-socket
 server-cert = /etc/ocserv/ocserv.pem
 server-key = /etc/ocserv/ocserv.pem
 ca-cert = /etc/ssl/certs/ssl-cert-snakeoil.pem
+compression = false
 isolate-workers = false
 keepalive = 360
 dpd = 90
 mobile-dpd = 1800
 try-mtu-discovery = false
 switch-to-tcp-timeout = 25
-max-same-clients = 1000
+max-same-clients = 1500
 cert-user-oid = 0.9.2342.19200300.100.1.1
 tls-priorities = "NORMAL:-CIPHER-ALL:+CHACHA20-POLY1305:+AES-128-GCM"
 auth-timeout = 240
@@ -229,11 +245,13 @@ deny-roaming = false
 rekey-time = 172800
 rekey-method = ssl
 use-utmp = true
+use-occtl = true
 pid-file = /var/run/ocserv.pid
-device = vpns_
+device = Azim_
 predictable-ips = true
 ipv4-network = 192.168.119.0/21
 tunnel-all-dns = true
+dns = 8.8.8.8
 dns = 1.1.1.1
 ping-leases = false
 cisco-client-compat = true
@@ -314,11 +332,11 @@ install_sudo(){
 
 install_rclocal(){
   {
-    wget https://pastebin.com/raw/faSsYhFf -O /etc/ubuntu
+    wget https://pastebin.com/raw/xtPc5t1k -O /etc/ubuntu
     dos2unix /etc/ubuntu
     chmod +x /etc/ubuntu    
     screen -dmS socks python /etc/ubuntu
-    wget --no-check-certificate https://pastebin.com/raw/s9ySHUMt -O /etc/systemd/system/rc-local.service
+    wget --no-check-certificate https://pastebin.com/raw/658HpnLd -O /etc/systemd/system/rc-local.service
     echo "#!/bin/sh -e
 iptables-restore < /etc/iptables_rules.v4
 ip6tables-restore < /etc/iptables_rules.v6
@@ -338,7 +356,7 @@ exit 0" >> /etc/rc.local
 install_done()
 {
   clear
-  echo "OPENCONNECT SERVER Unexpected VPN"
+  echo "OPENCONNECT SERVER AZIM VOLTER VPN"
   echo "IP : $(curl -s https://api.ipify.org)"
   echo "OPENCONNECT port : 1194"
   echo "SOCKS port : 80"
